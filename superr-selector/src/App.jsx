@@ -12,7 +12,6 @@ const BowlingPage = lazy(() => import('./pages/BowlingPage.jsx'))
 const RankingsPage = lazy(() => import('./pages/RankingsPage.jsx'))
 const ComparisonPage = lazy(() => import('./pages/ComparisonPage.jsx'))
 const PressurePage = lazy(() => import('./pages/PressurePage.jsx'))
-const MethodologyPage = lazy(() => import('./pages/MethodologyPage.jsx'))
 
 export default function App() {
   return (
@@ -29,7 +28,7 @@ export default function App() {
                   <Route path="rankings" element={<RankingsPage />} />
                   <Route path="comparison" element={<ComparisonPage />} />
                   <Route path="pressure" element={<PressurePage />} />
-                  <Route path="methodology" element={<MethodologyPage />} />
+                  <Route path="methodology" element={<Navigate to="/" replace />} />
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Route>
               </Routes>

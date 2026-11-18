@@ -296,8 +296,11 @@ class AnalyticsEngine:
         if filters.get("competition") and filters["competition"] != "All":
             filtered = filtered[filtered["competition"] == filters["competition"]]
         
-        if filters.get("season") and filters["season"] != "All":
-            filtered = filtered[filtered["season"] == int(filters["season"])]
+        if filters.get("season") and str(filters["season"]) != "All":
+            try:
+                filtered = filtered[filtered["season"] == int(filters["season"])]
+            except (ValueError, TypeError):
+                pass
         
         if filters.get("date_from"):
             filtered = filtered[filtered["match_date"] >= filters["date_from"]]

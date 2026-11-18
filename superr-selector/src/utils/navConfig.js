@@ -21,7 +21,6 @@ export const NAV_GROUPS = [
     label: 'Research',
     items: [
       { path: '/pressure', label: 'Pressure Analysis', icon: Gauge, description: 'Define and explore pressure' },
-      { path: '/methodology', label: 'Methodology', icon: FlaskConical, description: 'Formulas, baselines, limitations' },
     ],
   },
 ]

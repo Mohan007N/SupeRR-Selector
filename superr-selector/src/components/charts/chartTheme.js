@@ -1,16 +1,17 @@
-// Shared chart colours. Pressure is always lime, normal play is always slate blue.
+// Shared chart colours for clean, professional white/light theme.
+// Pressure is crisp emerald green, normal play is royal slate blue.
 export const CHART_COLORS = {
-  pressure: '#a3e635',
-  normal: '#7aa2ff',
-  playerA: '#a3e635',
-  playerB: '#7aa2ff',
-  grid: '#1f2e4a',
-  axis: '#8f9db8',
-  axisLine: '#2c3f63',
-  good: '#34d399',
-  warn: '#fbbf24',
-  bad: '#f87171',
-  cursor: 'rgba(163, 230, 53, 0.06)',
+  pressure: '#10b981',
+  normal: '#3b82f6',
+  playerA: '#10b981',
+  playerB: '#3b82f6',
+  grid: '#e2e8f0',
+  axis: '#64748b',
+  axisLine: '#cbd5e1',
+  good: '#10b981',
+  warn: '#f59e0b',
+  bad: '#ef4444',
+  cursor: 'rgba(16, 185, 129, 0.08)',
 }
 
 export const AXIS_TICK = { fill: CHART_COLORS.axis, fontSize: 12 }
@@ -22,6 +23,6 @@ export const LEVEL_COLORS = {
 }
 
 export const COMPETITION_COLORS = {
-  IPL: '#a3e635',
-  T20I: '#7aa2ff',
+  IPL: '#10b981',
+  T20I: '#3b82f6',
 }

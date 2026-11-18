@@ -36,10 +36,13 @@ def load_real_data() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     deliveries_df = deliveries_df.rename(columns={
         'striker_id': 'batsman',
         'striker_name': 'batsman_name',
+        'bowler_id': 'bowler',
         'runs': 'batsman_runs',
         'batting_team_id': 'batting_team',
         'bowling_team_id': 'bowling_team'
     })
+    if 'bowler' not in deliveries_df.columns and 'bowler_id' in deliveries_df.columns:
+        deliveries_df['bowler'] = deliveries_df['bowler_id']
     
     # Add required columns
     deliveries_df['extra_runs'] = deliveries_df['extras1_runs'].fillna(0) + deliveries_df['extras_2_runs'].fillna(0)

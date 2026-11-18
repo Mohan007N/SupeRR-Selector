@@ -19,11 +19,7 @@ export default function RankingsPage() {
           <FlaskConical className="mt-0.5 h-4 w-4 shrink-0 text-warn" aria-hidden="true" />
           <p>
             <strong className="font-semibold text-warn">Demo rankings.</strong> These leaderboards are computed from synthetic data with an
-            unvalidated rating formula. They are not verified results and must not be read as real player selections. See the{' '}
-            <Link to="/methodology" className="text-accent underline-offset-2 hover:underline">
-              methodology
-            </Link>
-            .
+            unvalidated rating formula. They are not verified results and must not be read as real player selections.
           </p>
         </div>
       ) : null}
