@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { GitCompareArrows, Table2, ScatterChart as ScatterIcon, BarChart3 } from 'lucide-react'
+import { GitCompareArrows, Table2, ScatterChart as ScatterIcon, BarChart3, Trophy } from 'lucide-react'
 import PageHeader from '../ui/PageHeader.jsx'
 import FilterBar from '../layout/FilterBar.jsx'
 import AsyncView from '../ui/AsyncView.jsx'
@@ -13,6 +13,7 @@ import StatTile from '../cards/StatTile.jsx'
 import ChartContainer from '../charts/ChartContainer.jsx'
 import PressureScatter from '../charts/PressureScatter.jsx'
 import PressureNormalChart from '../charts/PressureNormalChart.jsx'
+import ShortlistSection from '../shortlist/ShortlistSection.jsx'
 import DataTable from './DataTable.jsx'
 import TableToolbar from './TableToolbar.jsx'
 import { battingColumns, bowlingColumns, battingCsvColumns, bowlingCsvColumns, exportPreamble } from './playerColumns.jsx'
@@ -26,7 +27,8 @@ import { downloadCsv } from '../../utils/csv.js'
 import { formatNumber, slugify } from '../../utils/format.js'
 
 const VIEW_TABS = [
-  { id: 'table', label: 'Table', icon: Table2 },
+  { id: 'shortlist', label: '🎯 Final Shortlist (Top 10)', icon: Trophy },
+  { id: 'table', label: 'All Players Table', icon: Table2 },
   { id: 'scatter', label: 'Pressure vs normal', icon: ScatterIcon },
   { id: 'top', label: 'Top 8 comparison', icon: BarChart3 },
 ]
@@ -61,7 +63,7 @@ function PlayerTableBody({ type, data }) {
   const navigate = useNavigate()
   const isBatting = type === 'batting'
 
-  const [view, setView] = useState('table')
+  const [view, setView] = useState('shortlist')
   const [query, setQuery] = useState('')
   const [team, setTeam] = useState('All')
   const [confidence, setConfidence] = useState('All')
@@ -191,6 +193,10 @@ function PlayerTableBody({ type, data }) {
           </button>
         </div>
       </div>
+
+      <TabPanel idPrefix={type + '-view'} id="shortlist" value={view}>
+        <ShortlistSection type={type} />
+      </TabPanel>
 
       <TabPanel idPrefix={type + '-view'} id="table" value={view}>
         <TableToolbar

@@ -19,9 +19,22 @@ function competitionBadges(row) {
   )
 }
 
+function playerNameCell(row) {
+  return (
+    <div className="flex items-center gap-1.5">
+      {row.isShortlisted ? (
+        <span className="flex h-5 px-1 shrink-0 items-center justify-center rounded-md bg-accent/20 font-mono text-[10px] font-bold text-accent" title={`Shortlist #${row.rank}`}>
+          #{row.rank}
+        </span>
+      ) : null}
+      <span className="truncate font-semibold">{row.name}</span>
+    </div>
+  )
+}
+
 function sharedLeading() {
   return [
-    { key: 'name', header: 'Player', accessor: (row) => row.name, sticky: true, width: '170px' },
+    { key: 'name', header: 'Player', accessor: (row) => row.name, render: playerNameCell, sticky: true, width: '190px' },
     { key: 'team', header: 'Team', accessor: teamText, render: teamText },
     { key: 'competition', header: 'Comp.', accessor: (row) => row.competitions.join(','), render: competitionBadges },
     { key: 'matches', header: 'Mat', accessor: (row) => row.matches, align: 'right', tooltip: 'Matches in the current filter' },
