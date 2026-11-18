@@ -8,7 +8,7 @@ export const APP_SEASON = 'Season 2'
 // DEMO_MODE = false -> data comes from the FastAPI backend at VITE_API_BASE_URL.
 export const DEMO_MODE = String(env.VITE_DEMO_MODE ?? 'true').toLowerCase() !== 'false'
 
-export const API_BASE_URL = env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1'
+export const API_BASE_URL = env.VITE_API_BASE_URL || '/api/v1'
 
 // Artificial latency for demo requests so loading states are visible.
 export const DEMO_LATENCY_MS = 350

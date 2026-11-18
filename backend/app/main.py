@@ -1,10 +1,13 @@
 """FastAPI application for SupeRR Selector backend."""
 
-from fastapi import FastAPI, Query, HTTPException
+from fastapi import FastAPI, Query, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from typing import Optional, List
 from datetime import datetime
 import pandas as pd
+import os
 
 from .data_loader import load_data, get_meta_object
 from .analytics import AnalyticsEngine, calculate_batting_metrics, calculate_bowling_metrics
@@ -22,7 +25,7 @@ app = FastAPI(
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000"],  # Add your frontend URLs
+    allow_origins=["*"],  # Allow all origins for production deployment
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -750,6 +753,25 @@ def get_methodology():
     }
 
 
+# Mount built frontend for unified production deployment
+frontend_dist = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../superr-selector/dist"))
+if os.path.exists(frontend_dist):
+    assets_dir = os.path.join(frontend_dist, "assets")
+    if os.path.exists(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="static_assets")
+
+    @app.get("/{full_path:path}")
+    async def serve_frontend(full_path: str):
+        # Do not intercept API or documentation routes
+        if full_path.startswith("api/") or full_path.startswith("docs") or full_path.startswith("openapi.json"):
+            raise HTTPException(status_code=404, detail="Endpoint not found")
+        file_path = os.path.join(frontend_dist, full_path)
+        if full_path and os.path.isfile(file_path):
+            return FileResponse(file_path)
+        return FileResponse(os.path.join(frontend_dist, "index.html"))
+
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
