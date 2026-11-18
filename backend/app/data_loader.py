@@ -8,17 +8,34 @@ from .config import DATA_CONFIG, YOUNGEST_TALENT_CUTOFF
 import os
 
 
+def resolve_data_file(rel_path: str) -> str:
+    """Safely resolve data file paths across local, Render, or Docker environments."""
+    base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    clean_rel = rel_path.replace("\\", "/")
+    basename = os.path.basename(clean_rel)
+    
+    candidates = [
+        os.path.join(base_path, clean_rel),
+        os.path.join(base_path, "..", "Data Pack", basename),
+        os.path.join(os.getcwd(), "Data Pack", basename),
+        os.path.join(os.getcwd(), clean_rel.lstrip("./").lstrip("../")),
+        os.path.join(base_path, "data", basename),
+    ]
+    for c in candidates:
+        if os.path.exists(c):
+            return os.path.abspath(c)
+    return os.path.abspath(candidates[0])
+
+
 def load_real_data() -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """Load data from the provided data pack."""
     
-    base_path = os.path.join(os.path.dirname(__file__), "..")
-    
-    # Load all files
-    ball_path = os.path.join(base_path, DATA_CONFIG["deliveries_file"])
-    match_path = os.path.join(base_path, DATA_CONFIG["matches_file"])
-    teams_path = os.path.join(base_path, DATA_CONFIG["teams_file"])
-    player_map_path = os.path.join(base_path, DATA_CONFIG["player_mapping_file"])
-    comp_path = os.path.join(base_path, DATA_CONFIG["competitions_file"])
+    # Load all files safely
+    ball_path = resolve_data_file(DATA_CONFIG["deliveries_file"])
+    match_path = resolve_data_file(DATA_CONFIG["matches_file"])
+    teams_path = resolve_data_file(DATA_CONFIG["teams_file"])
+    player_map_path = resolve_data_file(DATA_CONFIG["player_mapping_file"])
+    comp_path = resolve_data_file(DATA_CONFIG["competitions_file"])
     
     print(f"Loading data from: {ball_path}")
     
