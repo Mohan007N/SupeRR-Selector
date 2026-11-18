@@ -385,3 +385,18 @@ export const SHORTLIST_BOWLERS = [
   },
 ]
 
+// Ensure consistent field aliases across all components
+SHORTLIST_BATTERS.forEach((p) => {
+  p.rating = p.rating ?? p.ratingIndex
+  p.pressureBalls = p.pressureBalls ?? p.balls
+  p.type = 'batting'
+})
+
+SHORTLIST_BOWLERS.forEach((p) => {
+  p.rating = p.rating ?? p.ratingIndex
+  p.pressureBalls = p.pressureBalls ?? p.balls
+  p.pressureEconomy = p.pressureEconomy ?? p.economy
+  p.type = 'bowling'
+})
+
+
